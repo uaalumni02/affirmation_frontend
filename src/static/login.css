@@ -7,18 +7,47 @@ body, html {
     height: 100%;
     line-height: 1.6;
     color: #333;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Container */
 .login-container {
     display: flex;
-    height: calc(100vh - 1in); /* Full viewport height minus 1 inch for top and bottom margins */
-    width: calc(100vw - 1in);  /* Full viewport width minus 1 inch for left and right margins */
-    margin: 0.5in; /* Margin added on all sides */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow for a professional card look */
-    border-radius: 15px; /* Rounded corners for a modern card look */
+    height: calc(100vh - 1in);
+    width: calc(100vw - 1in);
+    margin: 0.5in;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
     overflow: hidden;
     background-color: #fff;
+    position: relative;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+}
+
+.dark-mode .login-left {
+    background-color: #2d2d2d;
+    border-right: 2px solid #555;
+}
+
+.dark-mode .login-right {
+    background-color: #333;
+}
+
+.dark-mode input {
+    background: #555;
+    color: white;
+    border: 1px solid #777;
+}
+
+.dark-mode button {
+    background-color: #007bff;
+    color: white;
 }
 
 /* Left Section */
@@ -31,7 +60,7 @@ body, html {
     justify-content: center;
     padding: 50px;
     box-sizing: border-box;
-    border-right: 2px solid #ddd; /* Light separator between sections */
+    border-right: 2px solid #ddd;
 }
 
 /* Right Section */
@@ -44,6 +73,26 @@ body, html {
     padding: 50px;
     box-sizing: border-box;
     background-color: white;
+}
+
+/* Dark Mode Button Styling */
+.dark-mode-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.dark-mode-button:hover {
+    background: #007bff;
+    color: white;
 }
 
 /* Image Styling */
@@ -72,7 +121,6 @@ body, html {
     margin-top: 20px;
 }
 
-/* Form Group Styling */
 .form-group {
     margin-bottom: 20px;
     display: flex;
@@ -100,22 +148,6 @@ body, html {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-/* Forgot Password Link */
-.forgot-password {
-    text-align: right;
-    margin-top: 10px;
-}
-
-.forgot-password a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.forgot-password a:hover {
-    text-decoration: underline;
-}
-
 /* Button Styling */
 .login-button {
     width: 100%;
@@ -132,38 +164,4 @@ body, html {
 
 .login-button:hover {
     background-color: #0056b3;
-}
-
-/* Link Styling */
-.login-right p a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.login-right p a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .login-container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .login-left, .login-right {
-        flex: none;
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid #ddd;
-    }
-
-    .login-left {
-        padding: 30px;
-    }
-
-    .login-right {
-        padding: 30px;
-    }
 }
