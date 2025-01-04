@@ -106,21 +106,27 @@ body, html {
     margin: 30px 0; 
 }
 
-
-/* Title Styling - Moved Up and Left */
+/* Title Styling - Positioned Right of the Logo */
 .login-title {
     font-size: 2rem;
     font-weight: bold;
     color: #007bff;
     position: absolute;       
     top: 20px;               
-    left: 20px;               
+    left: 80px; /* Adjusted to make space for the logo on the left */
     margin: 0;
     padding: 0;
+    display: flex;
+    align-items: center; /* Align text and logo vertically */
 }
 
-
-
+/* Logo Styling - Adjusted Size and Position */
+.logo-image {
+    width: 60px; 
+    height: auto;
+    margin-right: 10px; 
+    border-radius: 50%; 
+}
 
 
 /* Form Styling */

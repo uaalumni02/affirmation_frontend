@@ -16,7 +16,16 @@ const Login = () => {
             </button>
 
             <div className="login-left">
-                <h1 className="login-title">Positive Affirmations</h1>
+                {/* Logo placed next to the title */}
+                <div className="login-title">
+                    <img
+                          src="/images/logo.webp"
+                        alt="Positive Affirmations Logo"
+                        className="logo-image"
+                    />
+                    Positive Affirmations
+                </div>
+
                 <img
                     src="/images/affirmation.png"
                     alt="Affirmation"
