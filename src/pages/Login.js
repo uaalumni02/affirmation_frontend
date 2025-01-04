@@ -34,7 +34,7 @@ const Login = () => {
             </div>
 
             <div className="login-right">
-                <h2>Welcome Back</h2>
+                <h1>Welcome Back</h1>
                 <p>Enter your email and password to access your account</p>
                 <form className="login-form">
                     <div className="form-group">
