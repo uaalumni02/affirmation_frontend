@@ -51,6 +51,17 @@ body, html {
     color: white;
 }
 
+/* Dark Mode Links */
+.dark-mode a {
+    color: #007bff; /* Bright blue for visibility */
+    text-decoration: underline;
+}
+
+.dark-mode a:hover {
+    color: #00aaff; /* Lighter blue for hover effect */
+}
+
+
 /* Left Section */
 .login-left {
     flex: 1;
