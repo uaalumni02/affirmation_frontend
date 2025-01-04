@@ -96,24 +96,32 @@ body, html {
     color: white;
 }
 
-/* Image Styling */
+/* Image Styling - Enlarged for Better Visibility */
 .login-image {
     width: 100%;
-    max-width: 450px;
+    max-width: 600px;  
     height: auto;
-    object-fit: contain;
+    object-fit: cover; 
     border-radius: 15px;
-    margin-bottom: 20px;
+    margin: 30px 0; 
 }
 
-/* Title Styling */
+
+/* Title Styling - Moved Up and Left */
 .login-title {
     font-size: 2rem;
     font-weight: bold;
     color: #007bff;
-    margin-bottom: 20px;
-    text-align: center;
+    position: absolute;       
+    top: 20px;               
+    left: 20px;               
+    margin: 0;
+    padding: 0;
 }
+
+
+
+
 
 /* Form Styling */
 .login-form {
