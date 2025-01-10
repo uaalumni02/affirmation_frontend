@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { Navigate, Link } from "react-router-dom";
 import "../static/login.css";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  // const [InvalidLogin, setInvalidLogin] = useState("");
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // const [userId, setUserId] = useState("");
+  const [InvalidLogin, setInvalidLogin] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userId, setUserId] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -29,18 +30,19 @@ const Login = () => {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        // if (response.success == false) {
-        //   setInvalidLogin("**Invalid Credentials");
-        // } else {
-        //   setLoggedIn(true);
-        //   setUserId(response.user._id);
-        // }
+        if (response.success == false) {
+          setInvalidLogin("**Invalid Credentials");
+        } else {
+          setLoggedIn(true);
+          setUserId(response.user._id);
+        }
       })
       .catch((error) => console.error("Error:", error));
   };
 
   return (
     <div className={`login-container ${darkMode ? "dark-mode" : ""}`}>
+         {loggedIn ? <Navigate to={`/daily_affrimation/${userId}`} /> : ""}
       {/* Dark Mode Button */}
       <button className="dark-mode-button" onClick={toggleDarkMode}>
         {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
@@ -93,6 +95,7 @@ const Login = () => {
             Login
           </button>
         </form>
+        <h3>{InvalidLogin}</h3>
         <p>
           Don’t have an account? <a href="/register">Create new account</a>
         </p>
