@@ -29,7 +29,6 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         if (response.success == false) {
           setInvalidLogin("**Invalid Credentials");
         } else {
@@ -42,7 +41,7 @@ const Login = () => {
 
   return (
     <div className={`login-container ${darkMode ? "dark-mode" : ""}`}>
-         {loggedIn ? <Navigate to={`/daily_affrimation/${userId}`} /> : ""}
+         {loggedIn ? <Navigate to={`/daily_affirmation/${userId}`} /> : ""}
       {/* Dark Mode Button */}
       <button className="dark-mode-button" onClick={toggleDarkMode}>
         {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
