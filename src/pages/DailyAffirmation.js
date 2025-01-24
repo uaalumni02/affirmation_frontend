@@ -5,7 +5,7 @@ const DailyAffirmation = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  // const [categoryId, setCategoryId] = useState("");
 
   const fetchUserData = () => {
     const url = window.location.pathname;
@@ -28,6 +28,7 @@ const DailyAffirmation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
+        // console.log(response.data)
         setCategory(response.data);
       })
       .catch((error) => console.error("Error:", error));
@@ -47,7 +48,7 @@ const DailyAffirmation = () => {
 
 
   const fetchRandomAffirmation = () => {
-    fetch("http://localhost:3000/api/random_affirmation/", {
+    fetch("http://localhost:3000/api/random_affirmation/" + selectedCategory, {
       method: "GET",
       credentials: "include",
     })
@@ -70,8 +71,8 @@ const DailyAffirmation = () => {
   const handleCategoryChange = (e) => {
     const selectedCat = category.find((cat) => cat.category === e.target.value);
     setSelectedCategory(selectedCat.category);
-    setCategoryId(selectedCat._id);
-    console.log(categoryId);
+    // setCategoryId(selectedCat);
+    console.log(selectedCategory);
   };
 
   return (
