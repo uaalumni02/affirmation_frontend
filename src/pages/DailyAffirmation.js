@@ -67,6 +67,7 @@ const DailyAffirmation = () => {
   return (
     <div className="container">
       <h1>Welcome {name}!</h1>
+      <h2>Please Select a Category...</h2>
 
       {showNotification && (
         <div className="notification show">

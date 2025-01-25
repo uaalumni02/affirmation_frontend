@@ -9,6 +9,7 @@ const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -16,6 +17,8 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true); // Start loading spinner
+
     fetch("http://localhost:3000/api/user/login", {
       method: "post",
       credentials: "include",
@@ -29,26 +32,31 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.success == false) {
+        setLoading(false); // Stop loading spinner
+
+        if (response.success === false) {
           setInvalidLogin("**Invalid Credentials");
         } else {
           setLoggedIn(true);
           setUserId(response.user._id);
         }
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false); // Stop loading spinner in case of error
+      });
   };
 
   return (
     <div className={`login-container ${darkMode ? "dark-mode" : ""}`}>
-         {loggedIn ? <Navigate to={`/daily_affirmation/${userId}`} /> : ""}
+      {loggedIn ? <Navigate to={`/daily_affirmation/${userId}`} /> : ""}
+
       {/* Dark Mode Button */}
       <button className="dark-mode-button" onClick={toggleDarkMode}>
         {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
       </button>
 
       <div className="login-left">
-        {/* Logo placed next to the title */}
         <div className="login-title">
           <img
             src="/images/logo.webp"
@@ -68,13 +76,14 @@ const Login = () => {
       <div className="login-right">
         <h1>Welcome Back</h1>
         <p>Enter your username and password to access your account</p>
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username</label>
             <input
               type="text"
               placeholder="Enter your username"
               onChange={(e) => setUserName(e.target.value)}
+              required
             />
           </div>
           <div className="form-group">
@@ -83,20 +92,22 @@ const Login = () => {
               type="password"
               placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="form-options">
-            <a href="/forgot-password" className="forgot-password">
+            <Link to="/forgot-password" className="forgot-password">
               Forgot Password?
-            </a>
+            </Link>
           </div>
-          <button type="submit" className="login-button" onClick={handleSubmit}>
-            Login
+          <button type="submit" className="login-button loading-button">
+            {loading ? <div className="spinner"></div> : null}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <h3>{InvalidLogin}</h3>
         <p>
-          Don’t have an account? <a href="/register">Create new account</a>
+          Don’t have an account? <Link to="/register">Create new account</Link>
         </p>
       </div>
     </div>
