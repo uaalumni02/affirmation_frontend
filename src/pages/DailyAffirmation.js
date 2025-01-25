@@ -6,6 +6,7 @@ const DailyAffirmation = () => {
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [randomAffirmation, setRandomAffirmation] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUserData = () => {
     const url = window.location.pathname;
@@ -38,8 +39,6 @@ const DailyAffirmation = () => {
     fetchCategoryData();
   }, []);
 
-  //-----this function needs to pass the Id of the category selected
-
   const fetchRandomAffirmation = () => {
     fetch("http://localhost:3000/api/random_affirmation/" + selectedCategory, {
       method: "GET",
@@ -47,7 +46,8 @@ const DailyAffirmation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setRandomAffirmation(response.data)
+        setRandomAffirmation(response.data);
+        setIsModalOpen(true);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -55,8 +55,6 @@ const DailyAffirmation = () => {
   const handleCategoryChange = (e) => {
     const selectedCat = category.find((cat) => cat.category === e.target.value);
     setSelectedCategory(selectedCat.category);
-    // setCategoryId(selectedCat);
-    console.log(selectedCategory);
   };
 
   return (
@@ -85,6 +83,17 @@ const DailyAffirmation = () => {
       >
         Create Affirmation
       </button>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{randomAffirmation}</p>
+            <button className="btn" onClick={() => setIsModalOpen(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
