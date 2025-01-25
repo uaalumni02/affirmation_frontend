@@ -5,7 +5,7 @@ const DailyAffirmation = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  // const [categoryId, setCategoryId] = useState("");
+  const [randomAffirmation, setRandomAffirmation] = useState("");
 
   const fetchUserData = () => {
     const url = window.location.pathname;
@@ -28,7 +28,6 @@ const DailyAffirmation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response.data)
         setCategory(response.data);
       })
       .catch((error) => console.error("Error:", error));
@@ -39,13 +38,7 @@ const DailyAffirmation = () => {
     fetchCategoryData();
   }, []);
 
-
-
-
-
-
-//-----this function needs to pass the Id of the category selected
-
+  //-----this function needs to pass the Id of the category selected
 
   const fetchRandomAffirmation = () => {
     fetch("http://localhost:3000/api/random_affirmation/" + selectedCategory, {
@@ -54,19 +47,10 @@ const DailyAffirmation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        setRandomAffirmation(response.data)
       })
       .catch((error) => console.error("Error:", error));
   };
-
-
-
-
-
-
-
-
-
 
   const handleCategoryChange = (e) => {
     const selectedCat = category.find((cat) => cat.category === e.target.value);
@@ -79,9 +63,6 @@ const DailyAffirmation = () => {
     <div className="container">
       <h1>Welcome {name}!</h1>
       <p className="affirmation"></p>
-      <button className="btn" onClick={fetchRandomAffirmation}>
-        Generate New Affirmation
-      </button>
 
       <select
         className="dropdown"
@@ -95,6 +76,9 @@ const DailyAffirmation = () => {
           </option>
         ))}
       </select>
+      <button className="btn" onClick={fetchRandomAffirmation}>
+        Generate Random Affirmation
+      </button>
       <button
         className="btn"
         onClick={() => (window.location.href = "/create-affirmation")}
