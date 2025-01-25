@@ -8,6 +8,8 @@ const DailyAffirmation = () => {
   const [randomAffirmation, setRandomAffirmation] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [newAffirmation, setNewAffirmation] = useState(""); // Text input for new affirmation
+  const [isFavorite, setIsFavorite] = useState(false); // Track if affirmation is marked as favorite
 
   const fetchUserData = () => {
     const url = window.location.pathname;
@@ -54,7 +56,7 @@ const DailyAffirmation = () => {
       .then((res) => res.json())
       .then((response) => {
         setRandomAffirmation(response.data);
-        setIsModalOpen(true);
+        setIsModalOpen(true); // Open modal after fetching affirmation
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -64,6 +66,13 @@ const DailyAffirmation = () => {
     setShowNotification(false);
   };
 
+  const handleSaveAffirmation = () => {
+    // Logic to save the new affirmation (post request or any other method)
+    console.log("Saving affirmation:", newAffirmation);
+    console.log("Is Favorite:", isFavorite);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="container">
       <h1>Welcome {name}!</h1>
@@ -71,7 +80,7 @@ const DailyAffirmation = () => {
 
       {showNotification && (
         <div className="notification show">
-          Please select a category before generating an affirmation.
+          Please select a category.
         </div>
       )}
 
@@ -91,19 +100,40 @@ const DailyAffirmation = () => {
       </select>
 
       <button className="btn" onClick={fetchRandomAffirmation}>
-        Generate Random Affirmation
-      </button>
-      <button
-        className="btn"
-        onClick={() => (window.location.href = "/create-affirmation")}
-      >
         Create Affirmation
       </button>
 
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
+            <h3>Random Affirmation:</h3>
             <p>{randomAffirmation}</p>
+
+            <h4>Create a New Affirmation</h4>
+            <textarea
+              placeholder="Write your affirmation here"
+              value={newAffirmation}
+              onChange={(e) => setNewAffirmation(e.target.value)}
+              rows="4"
+              style={{ width: "100%", padding: "10px", borderRadius: "8px" }}
+            />
+
+            <div>
+              <label>
+                Mark as Favorite:
+                <select
+                  onChange={(e) => setIsFavorite(e.target.value === "true")}
+                  value={isFavorite ? "true" : "false"}
+                >
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </label>
+            </div>
+
+            <button className="btn" onClick={handleSaveAffirmation}>
+              Save Affirmation
+            </button>
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Close
             </button>
@@ -113,5 +143,4 @@ const DailyAffirmation = () => {
     </div>
   );
 };
-
 export default DailyAffirmation;
