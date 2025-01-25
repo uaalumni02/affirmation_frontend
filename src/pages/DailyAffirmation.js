@@ -40,7 +40,12 @@ const DailyAffirmation = () => {
   }, []);
 
   const fetchRandomAffirmation = () => {
-    fetch("http://localhost:3000/api/random_affirmation/" + selectedCategory, {
+    if (!selectedCategory) {
+      alert("Please select a category first.");
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/random_affirmation/${selectedCategory}`, {
       method: "GET",
       credentials: "include",
     })
@@ -53,27 +58,28 @@ const DailyAffirmation = () => {
   };
 
   const handleCategoryChange = (e) => {
-    const selectedCat = category.find((cat) => cat.category === e.target.value);
-    setSelectedCategory(selectedCat.category);
+    setSelectedCategory(e.target.value);
   };
 
   return (
     <div className="container">
       <h1>Welcome {name}!</h1>
-      <p className="affirmation"></p>
 
       <select
         className="dropdown"
         value={selectedCategory}
         onChange={handleCategoryChange}
       >
-        <option value="">Select Category</option>
+        <option value="" disabled>
+          Select Category
+        </option>
         {category.map((cat, index) => (
           <option key={index} value={cat.category}>
             {cat.category}
           </option>
         ))}
       </select>
+
       <button className="btn" onClick={fetchRandomAffirmation}>
         Generate Random Affirmation
       </button>
