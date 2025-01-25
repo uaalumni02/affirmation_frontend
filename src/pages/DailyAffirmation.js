@@ -7,11 +7,12 @@ const DailyAffirmation = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [randomAffirmation, setRandomAffirmation] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   const fetchUserData = () => {
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf("/") + 1);
-    fetch("http://localhost:3000/api/user/" + id, {
+    fetch(`http://localhost:3000/api/user/${id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -40,8 +41,9 @@ const DailyAffirmation = () => {
   }, []);
 
   const fetchRandomAffirmation = () => {
-    if (!selectedCategory) {
-      alert("Please select a category first.");
+    if (selectedCategory === "") {
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000); // Hide after 3 seconds
       return;
     }
 
@@ -59,11 +61,18 @@ const DailyAffirmation = () => {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    setShowNotification(false);
   };
 
   return (
     <div className="container">
       <h1>Welcome {name}!</h1>
+
+      {showNotification && (
+        <div className="notification show">
+          Please select a category before generating an affirmation.
+        </div>
+      )}
 
       <select
         className="dropdown"

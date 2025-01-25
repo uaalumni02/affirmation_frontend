@@ -83,3 +83,20 @@ button, select {
   max-width: 400px;
   width: 100%;
 }
+
+.notification {
+  color: #d9534f;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin: 20px 0;
+  text-align: center;
+  display: none;
+}
+
+.notification.show {
+  display: block;
+}
+
