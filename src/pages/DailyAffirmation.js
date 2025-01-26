@@ -6,7 +6,12 @@ const DailyAffirmation = () => {
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [randomAffirmation, setRandomAffirmation] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRandomAffirmationModalOpen, setIsRandomAffirmationModalOpen] =
+    useState(false); // For random affirmation modal
+  const [isCreateAffirmationModalOpen, setIsCreateAffirmationModalOpen] =
+    useState(false); // For create affirmation modal
+  const [affirmationText, setAffirmationText] = useState(""); // For creating new affirmation text
+  const [isFavorite, setIsFavorite] = useState(false); // To mark affirmation as favorite
   const [showNotification, setShowNotification] = useState(false);
 
   const fetchUserData = () => {
@@ -54,7 +59,7 @@ const DailyAffirmation = () => {
       .then((res) => res.json())
       .then((response) => {
         setRandomAffirmation(response.data);
-        setIsModalOpen(true);
+        setIsRandomAffirmationModalOpen(true);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -62,6 +67,23 @@ const DailyAffirmation = () => {
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
     setShowNotification(false);
+  };
+
+  const handleCreateAffirmationClick = () => {
+    setIsCreateAffirmationModalOpen(true); // Open the create affirmation modal
+  };
+
+  const handleSaveAffirmation = () => {
+    // You can implement the logic to save the affirmation here
+    console.log(
+      "Saving affirmation:",
+      affirmationText,
+      "Category:",
+      selectedCategory,
+      "Favorite:",
+      isFavorite
+    );
+    setIsCreateAffirmationModalOpen(false); // Close the modal after saving
   };
 
   return (
@@ -93,18 +115,65 @@ const DailyAffirmation = () => {
       <button className="btn" onClick={fetchRandomAffirmation}>
         Generate Random Affirmation
       </button>
-      <button
-        className="btn"
-        onClick={() => (window.location.href = "/create-affirmation")}
-      >
+      <button className="btn" onClick={handleCreateAffirmationClick}>
         Create Affirmation
       </button>
 
-      {isModalOpen && (
+      {/* Modal for Random Affirmation */}
+      {isRandomAffirmationModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <p>{randomAffirmation}</p>
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button
+              className="btn"
+              onClick={() => setIsRandomAffirmationModalOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for Creating Affirmation */}
+      {isCreateAffirmationModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Create a New Affirmation</h3>
+
+            <textarea
+              value={affirmationText}
+              onChange={(e) => setAffirmationText(e.target.value)}
+              placeholder="Enter your affirmation here..."
+            />
+
+            <label>Select Category</label>
+            <select value={selectedCategory} onChange={handleCategoryChange}>
+              <option value="" disabled>
+                Select Category
+              </option>
+              {category.map((cat, index) => (
+                <option key={index} value={cat.category}>
+                  {cat.category}
+                </option>
+              ))}
+            </select>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={isFavorite}
+                onChange={() => setIsFavorite(!isFavorite)}
+              />
+              Mark as Favorite
+            </label>
+
+            <button className="btn" onClick={handleSaveAffirmation}>
+              Save Affirmation
+            </button>
+            <button
+              className="btn"
+              onClick={() => setIsCreateAffirmationModalOpen(false)}
+            >
               Close
             </button>
           </div>
