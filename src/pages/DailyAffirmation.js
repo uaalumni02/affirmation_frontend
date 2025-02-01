@@ -73,23 +73,34 @@ const DailyAffirmation = () => {
     setIsCreateAffirmationModalOpen(true); // Open the create affirmation modal
   };
 
-  const handleSaveAffirmation = () => {
-    // You can implement the logic to save the affirmation here
-    console.log(
-      "Saving affirmation:",
-      affirmationText,
-      "Category:",
-      selectedCategory,
-      "Favorite:",
-      isFavorite
-    );
+  const handleSaveAffirmation = (event) => {
+    event.preventDefault();
+    fetch("http://localhost:3000/api/affirmation/", {
+      method: "post",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: name,
+        affirmation: affirmationText,
+        category,
+        isFavorite
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.error("Error:", error));
+
     setIsCreateAffirmationModalOpen(false); // Close the modal after saving
   };
 
   return (
     <div className="container">
       <h1>Welcome {name}!</h1>
-      <h2>Please Select a Category</h2>
+      <h3>Select a Category to Generate Affirmation</h3>
 
       {showNotification && (
         <div className="notification show">
