@@ -5,6 +5,7 @@ const DailyAffirmation = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [randomAffirmation, setRandomAffirmation] = useState("");
   const [isRandomAffirmationModalOpen, setIsRandomAffirmationModalOpen] =
     useState(false); // For random affirmation modal
@@ -74,6 +75,8 @@ const DailyAffirmation = () => {
   };
 
   const handleSaveAffirmation = (event) => {
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf("/") + 1);
     event.preventDefault();
     fetch("http://localhost:3000/api/affirmation/", {
       method: "post",
@@ -82,10 +85,10 @@ const DailyAffirmation = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userName: name,
+        userName: id,
         affirmation: affirmationText,
-        category,
-        isFavorite
+        category: categoryId,
+        isFavorite,
       }),
     })
       .then((res) => res.json())
@@ -158,7 +161,17 @@ const DailyAffirmation = () => {
             />
 
             <label>Select Category</label>
-            <select value={selectedCategory} onChange={handleCategoryChange}>
+
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                handleCategoryChange(e);
+                const selectedCat = category.find(
+                  (cat) => cat.category === e.target.value
+                );
+                setCategoryId(selectedCat ? selectedCat.id : "");
+              }}
+            >
               <option value="" disabled>
                 Select Category
               </option>
