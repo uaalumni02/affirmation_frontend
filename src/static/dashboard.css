@@ -1,0 +1,84 @@
+/* Dashboard Layout */
+.dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9fafb;
+    min-height: 100vh;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .affirmation-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .affirmation-table th,
+  .affirmation-table td {
+    padding: 14px 16px;
+    text-align: left;
+  }
+  
+  .affirmation-table th {
+    background-color: #374151;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .affirmation-table tbody tr:nth-child(odd) {
+    background-color: #f3f4f6;
+  }
+  
+  .affirmation-table tbody tr:hover {
+    background-color: #e5e7eb;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .date-cell {
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+  }
+  
+  .icon {
+    margin-right: 5px;
+  }
+  
+  /* Favorite Button */
+  .favorite-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .heart-icon {
+    transition: fill 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .heart-icon.favorite {
+    fill: #ef4444;
+    color: #ef4444;
+  }
+  
+  .heart-icon:hover {
+    transform: scale(1.2);
+  }
+  
