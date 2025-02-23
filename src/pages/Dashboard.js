@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Heart, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import "../static/dashboard.css"; // Import external CSS
+import { redirect } from "react-router-dom";
 
 const affirmations = [
   {
@@ -35,6 +36,24 @@ const affirmations = [
 ];
 
 const Dashboard = () => {
+  const fetchUserAffirmation = () => {
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf("/") + 1);
+    fetch(`http://localhost:3000/api/affirmation_by_user/${id}`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetchUserAffirmation();
+  }, []);
+
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Affirmations Dashboard</h1>

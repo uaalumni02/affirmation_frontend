@@ -19,7 +19,7 @@ function App() {
             path="/daily_affirmation/:id"
             element={<DailyAffirmation />}
           />
-          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/dashboard/:id" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>
