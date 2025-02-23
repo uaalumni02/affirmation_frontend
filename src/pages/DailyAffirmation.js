@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../static/dailyAffirmation.css";
+import { Navigate, Link } from "react-router-dom";
 
 const DailyAffirmation = () => {
   const [name, setName] = useState("");
@@ -14,6 +15,8 @@ const DailyAffirmation = () => {
   const [affirmationText, setAffirmationText] = useState(""); // For creating new affirmation text
   const [isFavorite, setIsFavorite] = useState(false); // To mark affirmation as favorite
   const [showNotification, setShowNotification] = useState(false);
+  const [affirmationSaved, setAffirmationSaved] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const fetchUserData = () => {
     const url = window.location.pathname;
@@ -25,6 +28,7 @@ const DailyAffirmation = () => {
       .then((res) => res.json())
       .then((response) => {
         setName(response.data.userName);
+        setUserId(response.data._id)
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -93,7 +97,11 @@ const DailyAffirmation = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
+
+        if (response.success) {
+          setAffirmationSaved(true);
+        }
       })
       .catch((error) => console.error("Error:", error));
 
@@ -102,6 +110,7 @@ const DailyAffirmation = () => {
 
   return (
     <div className="container">
+      {affirmationSaved ? <Navigate to={`/dashboard/${userId}`} /> : ""}
       <h1>Welcome {name}!</h1>
       <h3>Select a Category to Generate Affirmation</h3>
 
