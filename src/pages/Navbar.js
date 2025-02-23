@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../static/navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // To get the current URL path
 
-  // Handle Logout (Clear cookies & session storage)
   const handleLogout = () => {
     // Clear cookies by setting expiration to past date
     document.cookie.split(";").forEach((cookie) => {
@@ -21,10 +21,18 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const isDashboardPage = location.pathname.includes("dashboard");
+
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <button className="nav-btn" onClick={() => navigate(`/dashboard/${window.location.pathname.split('/').pop()}`)}>
+        <button
+          className={`nav-btn ${isDashboardPage ? "inactive" : ""}`} // Add inactive class if on dashboard page
+          onClick={() =>
+            navigate(`/dashboard/${window.location.pathname.split("/").pop()}`)
+          }
+          disabled={isDashboardPage} // Disable the button if already on dashboard
+        >
           🏠 Dashboard
         </button>
         <button className="nav-btn logout" onClick={handleLogout}>
