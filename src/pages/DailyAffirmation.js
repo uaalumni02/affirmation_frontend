@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Navbar from "./Navbar"; 
 import "../static/dailyAffirmation.css";
-import Navbar from "./Navbar"; // Adjust path if needed
+import "../static/navbar.css";
 
 import { Navigate } from "react-router-dom";
 
