@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../static/dailyAffirmation.css";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const DailyAffirmation = () => {
   const [name, setName] = useState("");
@@ -9,15 +9,16 @@ const DailyAffirmation = () => {
   const [categoryId, setCategoryId] = useState("");
   const [randomAffirmation, setRandomAffirmation] = useState("");
   const [isRandomAffirmationModalOpen, setIsRandomAffirmationModalOpen] =
-    useState(false); // For random affirmation modal
+    useState(false);
   const [isCreateAffirmationModalOpen, setIsCreateAffirmationModalOpen] =
-    useState(false); // For create affirmation modal
-  const [affirmationText, setAffirmationText] = useState(""); // For creating new affirmation text
-  const [isFavorite, setIsFavorite] = useState(false); // To mark affirmation as favorite
+    useState(false);
+  const [affirmationText, setAffirmationText] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [affirmationSaved, setAffirmationSaved] = useState(false);
   const [userId, setUserId] = useState("");
 
+  // Fetch user data
   const fetchUserData = () => {
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf("/") + 1);
@@ -28,11 +29,12 @@ const DailyAffirmation = () => {
       .then((res) => res.json())
       .then((response) => {
         setName(response.data.userName);
-        setUserId(response.data._id)
+        setUserId(response.data._id);
       })
       .catch((error) => console.error("Error:", error));
   };
 
+  // Fetch category data
   const fetchCategoryData = () => {
     fetch("http://localhost:3000/api/category/", {
       method: "GET",
@@ -50,10 +52,11 @@ const DailyAffirmation = () => {
     fetchCategoryData();
   }, []);
 
+  // Fetch a random affirmation
   const fetchRandomAffirmation = () => {
-    if (selectedCategory === "") {
+    if (!selectedCategory) {
       setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000); // Hide after 3 seconds
+      setTimeout(() => setShowNotification(false), 3000);
       return;
     }
 
@@ -69,50 +72,58 @@ const DailyAffirmation = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  // Handle category selection
   const handleCategoryChange = (e) => {
+    const selectedCat = category.find((cat) => cat.category === e.target.value);
     setSelectedCategory(e.target.value);
+    setCategoryId(selectedCat ? selectedCat._id : ""); // Assign categoryId correctly
     setShowNotification(false);
   };
 
+  // Open create affirmation modal
   const handleCreateAffirmationClick = () => {
-    setIsCreateAffirmationModalOpen(true); // Open the create affirmation modal
+    setIsCreateAffirmationModalOpen(true);
   };
 
+  // Save new affirmation
   const handleSaveAffirmation = (event) => {
-    const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf("/") + 1);
     event.preventDefault();
+
+    if (!affirmationText || !categoryId) {
+      alert("Please enter an affirmation and select a category.");
+      return;
+    }
+
     fetch("http://localhost:3000/api/affirmation/", {
-      method: "post",
+      method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userName: id,
+        userName: userId,
         affirmation: affirmationText,
-        category: categoryId,
+        category: categoryId, // Sending categoryId instead of category name
         isFavorite,
       }),
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response);
-
+        console.log("Response from server:", response);
         if (response.success) {
           setAffirmationSaved(true);
         }
       })
       .catch((error) => console.error("Error:", error));
 
-    setIsCreateAffirmationModalOpen(false); // Close the modal after saving
+    setIsCreateAffirmationModalOpen(false);
   };
 
   return (
     <div className="container">
-      {affirmationSaved ? <Navigate to={`/dashboard/${userId}`} /> : ""}
+      {affirmationSaved ? <Navigate to={`/dashboard/${userId}`} /> : null}
       <h1>Welcome {name}!</h1>
-      <h3>Select a Category to Generate Affirmation</h3>
+      <h3>Select a Category to Generate an Affirmation</h3>
 
       {showNotification && (
         <div className="notification show">
@@ -128,8 +139,8 @@ const DailyAffirmation = () => {
         <option value="" disabled>
           Select Category
         </option>
-        {category.map((cat, index) => (
-          <option key={index} value={cat.category}>
+        {category.map((cat) => (
+          <option key={cat._id} value={cat.category}>
             {cat.category}
           </option>
         ))}
@@ -175,17 +186,13 @@ const DailyAffirmation = () => {
               value={selectedCategory}
               onChange={(e) => {
                 handleCategoryChange(e);
-                const selectedCat = category.find(
-                  (cat) => cat.category === e.target.value
-                );
-                setCategoryId(selectedCat ? selectedCat.id : "");
               }}
             >
               <option value="" disabled>
                 Select Category
               </option>
-              {category.map((cat, index) => (
-                <option key={index} value={cat.category}>
+              {category.map((cat) => (
+                <option key={cat._id} value={cat.category}>
                   {cat.category}
                 </option>
               ))}

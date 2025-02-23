@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Heart, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import "../static/dashboard.css"; // Import external CSS
-import { redirect } from "react-router-dom";
 
 const Dashboard = () => {
   const [affirmation, setAffirmation] = useState([]);
@@ -16,7 +15,6 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log("API Response:", response.data);
         setAffirmation(response.data);
       })
       .catch((error) => console.error("Error:", error));
