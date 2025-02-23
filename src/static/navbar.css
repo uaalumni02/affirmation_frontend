@@ -1,0 +1,36 @@
+.navbar {
+    background-color: #4a90e2; /* Matches the theme */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-btn {
+    background: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .nav-btn:hover {
+    background: #dfe6ed;
+  }
+  
+  .logout {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  .logout:hover {
+    background: #c0392b;
+  }
+  

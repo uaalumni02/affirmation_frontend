@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../static/dailyAffirmation.css";
+import Navbar from "./Navbar"; // Adjust path if needed
+
 import { Navigate } from "react-router-dom";
 
 const DailyAffirmation = () => {
@@ -120,6 +122,8 @@ const DailyAffirmation = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="container">
       {affirmationSaved ? <Navigate to={`/dashboard/${userId}`} /> : null}
       <h1>Welcome {name}!</h1>
@@ -220,6 +224,7 @@ const DailyAffirmation = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
