@@ -4,38 +4,9 @@ import { motion } from "framer-motion";
 import "../static/dashboard.css"; // Import external CSS
 import { redirect } from "react-router-dom";
 
-const affirmations = [
-  {
-    id: 1,
-    text: "I am capable and strong.",
-    category: "Motivation",
-    favorite: true,
-    createdAt: "2025-02-16",
-  },
-  {
-    id: 2,
-    text: "I deserve happiness and success.",
-    category: "Self-Love",
-    favorite: false,
-    createdAt: "2025-02-14",
-  },
-  {
-    id: 3,
-    text: "I am enough just as I am.",
-    category: "Self-Worth",
-    favorite: true,
-    createdAt: "2025-02-10",
-  },
-  {
-    id: 4,
-    text: "Challenges help me grow and improve.",
-    category: "Growth",
-    favorite: false,
-    createdAt: "2025-02-08",
-  },
-];
-
 const Dashboard = () => {
+  const [affirmation, setAffirmation] = useState([]);
+
   const fetchUserAffirmation = () => {
     const url = window.location.pathname;
     const id = url.substring(url.lastIndexOf("/") + 1);
@@ -45,7 +16,8 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        console.log("API Response:", response.data);
+        setAffirmation(response.data);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -62,7 +34,7 @@ const Dashboard = () => {
         <table className="affirmation-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>No.</th> {/* Updated from "ID" to "No." */}
               <th>Affirmation</th>
               <th>Category</th>
               <th>Date</th>
@@ -70,19 +42,22 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {affirmations.map((affirmation) => (
+            {affirmation.map((affirmations, index) => (
               <motion.tr
-                key={affirmation.id}
+                key={affirmations._id} // Using _id as the unique key
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <td>{affirmation.id}</td>
-                <td>{affirmation.text}</td>
-                <td>{affirmation.category}</td>
+                <td>{index + 1}</td>{" "}
+                {/* Displaying affirmation count instead of ID */}
+                <td>{affirmations.affirmation}</td>
+                <td>{affirmations.category?.category || "N/A"}</td>{" "}
+                {/* Fix category reference */}
                 <td>
                   <span className="date-cell">
                     <Calendar size={16} className="icon" />
-                    {affirmation.createdAt}
+                    {new Date(affirmations.createdAt).toLocaleDateString()}{" "}
+                    {/* Format Date */}
                   </span>
                 </td>
                 <td>
@@ -90,9 +65,9 @@ const Dashboard = () => {
                     <Heart
                       size={20}
                       className={`heart-icon ${
-                        affirmation.favorite ? "favorite" : ""
+                        affirmations.isFavorite ? "favorite" : ""
                       }`}
-                      fill={affirmation.favorite ? "#ef4444" : "none"}
+                      fill={affirmations.isFavorite ? "#ef4444" : "none"}
                     />
                   </button>
                 </td>
